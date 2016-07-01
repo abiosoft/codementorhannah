@@ -12,6 +12,7 @@ var store *sessions.CookieStore
 
 func init() {
 	store = sessions.NewCookieStore([]byte("something-very-secret"))
+	store.Options.MaxAge = 60 * 15
 }
 
 // GetSession gets the current user session.

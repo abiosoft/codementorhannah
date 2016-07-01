@@ -6,18 +6,18 @@ import (
 	"net/http"
 )
 
+// Middleware func(w http.ResponseWriter, r *http.Request)
+// Chain of middleware
+
+// Auth
+// FetchUsers
+// Log
+
 func main() {
 
 	// Auth and Log
 	users := rootChain()
-	users.Use(func(w http.ResponseWriter, r *http.Request) error {
-		body := map[string]interface{}{
-			"name":  "Hann",
-			"email": "a@a.com",
-			"age":   100,
-		}
-		return json.NewEncoder(w).Encode(body)
-	})
+	users.Use(usersHandler)
 
 	http.Handle("/users", users)
 
@@ -63,13 +63,24 @@ func (c *CustomChain) Use(m Middleware) {
 
 // ServeHTTP satisfies http.Handler
 func (c *CustomChain) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// loop through all middleware
 	for _, middleware := range c.middlewares {
 		err := middleware(w, r)
 		if err != nil {
+			// if error occurs, return and stop iteration
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
+}
+
+func usersHandler(w http.ResponseWriter, r *http.Request) error {
+	body := map[string]interface{}{
+		"name":  "Hann",
+		"email": "a@a.com",
+		"age":   100,
+	}
+	return json.NewEncoder(w).Encode(body)
 }
 
 var authMid = func(w http.ResponseWriter, r *http.Request) error {
