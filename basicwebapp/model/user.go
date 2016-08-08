@@ -1,19 +1,5 @@
 package model
 
-import (
-	"encoding/json"
-	"os"
-)
-
-/*
-CREATE TABLE `user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(11) DEFAULT NULL,
-  `password` varchar(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-*/
-
 type User struct {
 	ID       int    `json:"user_id"` // struct tags
 	Username string `json:"username"`

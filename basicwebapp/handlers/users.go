@@ -2,8 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/abiosoft/codementorhannah/basicwebapp/sessions"
+	"log"
 	"net/http"
+
+	"github.com/abiosoft/codementorhannah/basicwebapp/model"
+	"github.com/abiosoft/codementorhannah/basicwebapp/sessions"
 )
 
 // LoginUser handles user login
@@ -26,6 +29,15 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/login", http.StatusFound)
+}
+
+func DumpUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := model.GetUsers()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Fprintln(w, users)
+
 }
 
 func LogoutUser(w http.ResponseWriter, r *http.Request) {

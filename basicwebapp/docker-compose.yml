@@ -1,0 +1,15 @@
+webapp:
+  build: .
+  links:
+    - mysql
+  expose:
+    - 8081 
+mysql:
+  image: mysql
+  environment: 
+    - MYSQL_USER=webapp
+    - MYSQL_PASSWORD=webapp_pass
+    - MYSQL_DATABASE=webapp_db
+    - MYSQL_ROOT_PASSWORD=webapp
+  expose: 
+    - 3306
